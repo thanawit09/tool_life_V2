@@ -34,32 +34,10 @@ router.post('/editline_tool', async (req, res) => {
       month: 'long',
       day: 'numeric',
     })
-    line_tool_detail.tool_life_per_day.push({ "create_time": datezone, "value": data.tool_life_per_day, "value_insert" : 0,"first_short" :[ {"value": data.tool_life_per_day,"create_time":datezone}]})
+    line_tool_detail.tool_life_per_day.push({ "create_time": datezone, "value": data.tool_life_per_day, "value_insert" : 0,"first_short" : {"value": data.tool_life_per_day,"create_time":datezone}})
      for (let i = 0; i < linedetail[0].line_tool.length; i++) {
       if (linedetail[0].line_tool[i].id == data.id_per_tool) {
        linedetail[0].line_tool[i].all_tool_life = data.tool_life_per_day
-    // for (let i = 0; i < linedetail[0].line_tool.length; i++) {
-    //   if (linedetail[0].line_tool[i].id == data.id_per_tool) {
-    //     if (dates.toLocaleTimeString('it-IT') >= time1 && dates.toLocaleTimeString('it-IT') <= time2) {
-    //       linedetail[0].line_tool[i].Day = line_tool_detail
-    //       if (linedetail[0].line_tool[i].Night.tool_life == null) {
-    //         linedetail[0].line_tool[i].all_tool_life = parseInt(linedetail[0].line_tool[i].Day.tool_life)
-
-
-    //       } else {
-    //         linedetail[0].line_tool[i].all_tool_life = parseInt(linedetail[0].line_tool[i].Day.tool_life) + parseInt(linedetail[0].line_tool[i].Night.tool_life)
-
-    //       }
-    //     } else {
-    //       linedetail[0].line_tool[i].Night = line_tool_detail
-    //       if (linedetail[0].line_tool[i].Day.tool_life == null) {
-    //         linedetail[0].line_tool[i].all_tool_life = parseInt(linedetail[0].line_tool[i].Night.tool_life)
-    //       } else {
-    //         linedetail[0].line_tool[i].all_tool_life = parseInt(linedetail[0].line_tool[i].Day.tool_life) + parseInt(linedetail[0].line_tool[i].Night.tool_life)
-    //       }
-    //     }
-    //   }
-    // }
        } }
     let doc = await lineMaster.findOneAndUpdate(filter_line_name, linedetail[0], {
       returnOriginal: false
@@ -90,18 +68,6 @@ router.post('/editline_tool', async (req, res) => {
         res.send(doc)
 
       } else {
-        // if(data.checkbox === true){
-        //   for (let i = 0; i < linedetail[0].line_tool.length; i++) {  
-        //     if (linedetail[0].line_tool[i].id == data.id_per_tool) {
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert = data.tool_life_per_day
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value =  parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value)
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].tool_count = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].tool_count)
-        //      line_tool_detail.tool_life = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life)
-        //      linedetail[0].line_tool[i].all_tool_life = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt( linedetail[0].line_tool[i].all_tool_life)
-        //     }
-        // }}
-       
-          //***********************************first************************************************************************************************* */
           if(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value === 0){
             console.log("aw")
             line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].first_short.push({"value": data.tool_life_per_day,"create_time":dateconverst})
@@ -129,9 +95,20 @@ router.post('/editline_tool', async (req, res) => {
     }
 
     else if (checktime == "Day") {
+      console.log("tesst")
       if (Date.parse(date) != Date.parse(dateconverst)) {
-       line_tool_detail.tool_life_per_day.push({ "create_time": dateconverst, "value": data.tool_life_per_day,"value_insert" : 0,"first_short" : []})
-       for (let i = 0; i < linedetail[0].line_tool.length; i++) {
+        console.log("1");
+        if(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value == 0){
+          console.log("d");
+        line_tool_detail.tool_life_per_day.push({ "create_time": datezone, "value": data.tool_life_per_day, "value_insert" : 0,"first_short" : {"value": data.tool_life_per_day,"create_time":dateconverst}})
+        for (let i = 0; i < linedetail[0].line_tool.length; i++) {
+        if (linedetail[0].line_tool[i].id == data.id_per_tool) 
+         linedetail[0].line_tool[i].all_tool_life = data.tool_life_per_day
+        }
+      }
+    }
+    line_tool_detail.tool_life_per_day.push({ "create_time": datezone, "value": data.tool_life_per_day, "value_insert" : 0,"first_short" : {"value": "","create_time":""}})
+        for (let i = 0; i < linedetail[0].line_tool.length; i++) {
         if (linedetail[0].line_tool[i].id == data.id_per_tool) {
          linedetail[0].line_tool[i].all_tool_life = data.tool_life_per_day
         }
@@ -141,21 +118,10 @@ router.post('/editline_tool', async (req, res) => {
         });
         res.send(doc)
       } else {
-        // if(data.checkbox === true){
-        //   for (let i = 0; i < linedetail[0].line_tool.length; i++) {  
-        //     if (linedetail[0].line_tool[i].id == data.id_per_tool) {
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert = data.tool_life_per_day
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_p  er_day.length-1].value =  parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value)
-        //      line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].tool_count = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].tool_count)
-        //      line_tool_detail.tool_life = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt(line_tool_detail.tool_life)
-        //      linedetail[0].line_tool[i].all_tool_life = parseInt(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value_insert) + parseInt( linedetail[0].line_tool[i].all_tool_life)
-        //     }
-        // }}
-        // else{
-          //*************************************************first****************************************************************** */
           if(line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].value == 0){
             console.log("aw")
-            line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].first_short.push({"value": data.tool_life_per_day,"create_time":dateconverst})
+            line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].first_short.value = data.tool_life_per_day
+            line_tool_detail.tool_life_per_day[line_tool_detail.tool_life_per_day.length-1].first_short.create_time = dateconverst
             for (let i = 0; i < linedetail[0].line_tool.length; i++) {
               if (linedetail[0].line_tool[i].id == data.id_per_tool) {
                 linedetail[0].line_tool[i].all_tool_life = data.tool_life_per_day
@@ -322,27 +288,27 @@ router.post('/resetlimit', async (req, res) => {
       findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].date_reset = dateconverst
       findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].value = 0
       findtoolname.all_tool_life = 0
-      var { email } = req.body;
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'thanawitnuangratsamee@gmail.com',
-          pass: 'oneadixctiqjyeav'
-        }
-      });
-      const mailOptions = {
-        from: email,
-        to: [findtoolname.email],
-        subject: 'Tool life record',
-        html:  findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].fname  + " / " + findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].lname  + " / "  + "Date reset :" +  findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].date_reset 
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      })
+      // var { email } = req.body;
+      // const transporter = nodemailer.createTransport({
+      //   service: 'gmail',
+      //   auth: {
+      //     user: 'thanawitnuangratsamee@gmail.com',
+      //     pass: 'oneadixctiqjyeav'
+      //   }
+      // });
+      // const mailOptions = {
+      //   from: email,
+      //   to: [findtoolname.email],
+      //   subject: 'Tool life record',
+      //   html:  findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].fname  + " / " + findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].lname  + " / "  + "Date reset :" +  findtoolname.Day.tool_life_per_day[findtoolname.Day.tool_life_per_day.length - 1].date_reset 
+      // };
+      // transporter.sendMail(mailOptions, function (error, info) {
+      //   if (error) {
+      //     console.log(error);
+      //   } else {
+      //     console.log('Email sent: ' + info.response);
+      //   }
+      // })
     }
     if (findtoolname.Day.tool_life_per_day.length == 0) {
       console.log("day")
@@ -457,31 +423,65 @@ router.get('/getlinemasterfrondate/:datefrom/:dateto/:toolname/:linename', async
   const { dateto } = req.params
   const { linename } = req.params
   const { toolname } = req.params
-  var dateforsend = []
+  var dataday= []
+  var datanight= []
   const linedetail = await lineMaster.find({ line_name: linename })
   const findtoolname = linedetail[0].line_tool.find(x => x.name === toolname)
 
-  if (shift == 'Day') {
+    // get data of day
     for (let i = 0; i < findtoolname.Day.tool_life_per_day.length; i++) {
-      console.log(findtoolname.Day.tool_life_per_day.length)
-    
       if (Date.parse(findtoolname.Day.tool_life_per_day[i].create_time) >= Date.parse(datefrom) && Date.parse(findtoolname.Day.tool_life_per_day[i].create_time) <= Date.parse(dateto)) {
-        dateforsend.push(findtoolname.Day.tool_life_per_day[i])
-        console.log("oo" + dateforsend)
+        dataday.push(findtoolname.Day.tool_life_per_day[i])
       }
     }
-  }
-  else {
+  
 
+    // get data of night
     for (let i = 0; i < findtoolname.Night.tool_life_per_day.length; i++) {
       if (Date.parse(datefrom) <= Date.parse(findtoolname.Night.tool_life_per_day[i].create_time) && Date.parse(findtoolname.Night.tool_life_per_day[i].create_time) <= Date.parse(dateto)) {
-        dateforsend.push(findtoolname.Night.tool_life_per_day[i])
+        datanight.push(findtoolname.Night.tool_life_per_day[i])
       }
-      console.log(Date.parse(findtoolname.Night.tool_life_per_day[i].create_time))
     }
-  }
 
-  res.send(dateforsend)
+    // compare day and night
+    let arrayunique = [];
+    let check = true;
+    for(let i = 0; i < datanight.length; i++){
+      for(let y = 0; y < dataday.length; y++){
+        if(Date.parse(dataday[y].create_time) == Date.parse(datanight[i].create_time)){
+          check = false
+          if(parseInt(dataday[y].value) < parseInt(datanight[i].value)){
+            arrayunique.push({"value":datanight[i].value, "create_time":datanight[i].create_time})
+          }else{
+            arrayunique.push({"value":dataday[y].value, "create_time":datanight[i].create_time})
+          }
+          dataday.splice(y,1)
+        }
+      }
+      if(check){
+        arrayunique.push(datanight[i])
+        check = false
+      }
+    }
+    for(let i = 0; i < dataday.length; i++){
+      arrayunique.push(dataday[i])
+    }
+
+    function compare( a, b ) {
+      if ( Date.parse(a.create_time) < Date.parse(b.create_time )){
+        return -1;
+      }
+      if ( Date.parse(a.create_time) > Date.parse(b.create_time) ){
+        return 1;
+      }
+      return 0;
+    }
+    
+    arrayunique.sort( compare );
+
+    console.log(arrayunique)
+
+  res.send(arrayunique)
 })
 router.get('/getlinemasterfrondate2/:shift/:datefrom/:dateto/:linename', async (req, res) => {
   const { shift } = req.params
@@ -720,34 +720,32 @@ router.get('/first_line/:v_product_name', async (req, res) => {
  
   res.send(find_line[0].line_name)
 })
-router.get('/select_shift/:v_line_name/:v_shift_name', async (req, res) => {
+router.get('/select_shift/:v_line_name', async (req, res) => {
   const { v_line_name } = req.params
-  const { v_shift_name } = req.params
-  var response = []
+  var responseday = []
+  var responsenight = []
   const find_line = await lineMaster.find({ line_name : v_line_name })
-  if(v_shift_name == 'Day'){
     for(let i = 0; i < find_line[0].line_tool.length; i++){
       for(let a = 0; a < find_line[0].line_tool[i].Day.tool_life_per_day.length; a++){
+        console.log(find_line[0].line_tool[i].Day.tool_life_per_day)
         if(find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a] != null){
+        
         find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a].create_time
-      response.push({"name" : find_line[0].line_tool[i].name,"value":find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a].value, "create_time" : find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a].create_time})
+      responseday.push({"name" : find_line[0].line_tool[i].name,"value":find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a].value, "create_time" : find_line[0].line_tool[i].Day.tool_life_per_day[find_line[0].line_tool[i].Day.tool_life_per_day.length-1].first_short[a].create_time})
       }
     }
   }
-  }
-  if(v_shift_name == 'Night'){
     for(let i = 0; i < find_line[0].line_tool.length; i++){
       for(let a = 0; a < find_line[0].line_tool[i].Night.tool_life_per_day.length; a++){
         if(find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a] != null){
         find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a].create_time
-      response.push({"name" : find_line[0].line_tool[i].name,"value":find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a].value, "create_time" : find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a].create_time})
-      
+      responsenight.push({"name" : find_line[0].line_tool[i].name,"value":find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a].value, "create_time" : find_line[0].line_tool[i].Night.tool_life_per_day[find_line[0].line_tool[i].Night.tool_life_per_day.length-1].first_short[a].create_time})
       }
     }
   }
-  }
-
-  res.send(response)
+  console.log(responsenight);
+  console.log(responseday)
+  // res.send(response)
 })
 //***************************************************************** */
 router.get('/getgraphproduct/:productname', async (req, res) => {

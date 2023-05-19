@@ -87,7 +87,7 @@
           <span style="font-size: 15px; font-family: Tahoma; color: white">
             Shift :</span
           >&nbsp;
-          <select
+          <!-- <select
             v-model="shift"
             class="select"
             @change="onChange()"
@@ -95,7 +95,7 @@
           >
             <option value="Day">Day</option>
             <option value="Night">Night</option>
-          </select>
+          </select> -->
         </div>
 
         <div class="navbar-start">
@@ -451,8 +451,9 @@ export default {
       axios
         .get(
           "http://localhost:3000/getlinemasterfrondate/" +
-            this.shift +
-            "/" +
+            // this.shift +
+            // "/" 
+            
             this.datefrom +
             "/" +
             this.dateto +
@@ -466,7 +467,7 @@ export default {
           for (let i = 0; i < response.data.length; i++) {
             this.data.labels.push(response.data[i].create_time);
             this.data.datasets[0].data.push(
-              parseInt(response.data[i].tool_count)
+              parseInt(response.data[i].value)
             );
             this.data.datasets[1].data.push(parseInt(this.limitname));
           }
@@ -532,9 +533,8 @@ export default {
       axios
         .get(
           "http://localhost:3000/select_shift/" +
-            this.v_line_name +
-            "/" +
-            this.v_shift_name
+            this.v_line_name 
+           
         )
         .then((response) => {
           this.first_info = response.data;
