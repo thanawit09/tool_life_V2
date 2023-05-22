@@ -108,9 +108,8 @@
                   </label>
                 
 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span><label class="
-                    button" @click="update" style="font-family: Tahoma;height: 2rem;">Edit email</label></span>
+               
+               
                 </div>
               </div>
               <div class="field">
@@ -242,7 +241,10 @@
                 <li style="color: white">Click Apply.</li>
                 <li style="color: white">Click Edit line.</li>
               </ul>
+              <button class="
+                    button" @click="update" style="font-family: Tahoma;height: 2rem;margin-top: 2.5rem;margin-left: 18rem;">Edit email for tool</button>
             </div>
+         
           </div>
         </div>
       </div>
